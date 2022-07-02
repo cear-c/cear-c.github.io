@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang=en>
+    <head>
+        <meta charset=UTF-8>
+        <!-- <link rel=preload href=/assets/font/circular.woff2 as=font type=font/woff2 crossorigin> -->
+        <meta name=viewport content="width=device-width, initial-scale=1.0">
+        <link rel=icon href=/assets/c.ico>
+        <title>ear</title>
+
+        <script type=module src=/script/index.js defer></script>
+        <link rel=stylesheet href=/style/index.css>
+        <link rel=stylesheet href=/style/list.css>
+        <link rel=stylesheet href=/style/bar.css>
+    </head>
+
+    <body>
+        <canvas></canvas>
+        <div id=main>
+
+            <div id=bar>
+                <div class=progress><div></div></div>
+
+                <div id=content>
+                    <img></img>
+                    <div class=name>
+                        <div class=curr>
+                            <span class=title></span>
+                            <span class=artists></span>
+                        </div>
+                    </div>
+                    <div class=icons>
+                        <button class="icon i-queue"></button>
+                        <button class="icon i-session"></button>
+                        <button class="love i-love"></button>
+                        <button class="icon i-play"></button>
+                    </div>
+                </div>
+
+                <div id=controls>
+                    <button class="icon i-text"></button>
+                    <div class=range>
+                        <button class="icon i-prev"></button>
+                        <div class=slider>
+                            <div class=input>
+                                <div><div></div></div>
+                            </div>
+                            <div class=time>
+                                <span class=min>0:00</span>
+                                <span class=max>0:00</span>
+                            </div>
+                        </div>
+                        <button class="icon i-next"></button>
+                    </div>
+                    <button class="icon i-loop"></button>
+                </div>
+
+                <div id=session>
+                    <div class=name>
+                        <span class=top></span>
+                        <div class=bot>
+                            <div class="icon i-listen"></div>
+                            <span></span>
+                        </div>
+                    </div>
+                    <button></button>
+                </div>
+            </div>
+
+            <div id=list>
+                <div id=info>
+                    <div class=top>
+                        cear
+                    </div>
+                    <div class=search>
+                        <div class=input>
+                            <div class="icon i-back"></div>
+                            <div class="icon i-search"></div>
+                            <input type=text placeholder="Search" enterkeyhint="search" />
+                            <div class="icon i-close"></div>
+                        </div>
+                    </div>
+                    <div class=bot>
+                        cear
+                    </div>
+                </div>
+
+                <div id=items>
+                    <template id=item>
+                        <div class=item>
+                            <span class=index></span>
+                            <img></img>
+                            <div class=name>
+                                <span class=title></span>
+                                <span class=artists></span>
+                            </div>
+                            <div class="icon type"></div>
+                        </div>
+                    </template>
+
+                    <div class="header hidden">
+
+                    </div>
+
+                    <div class=filter>
+                        <input value="" name=filter type=radio id=top checked />
+                        <label for=top>Top</label>
+                        <input value="track" name=filter type=radio id=songs />
+                        <label for=songs>Songs</label>
+                        <input value="artist" name=filter type=radio id=artists />
+                        <label for=artists>Artists</label>
+                        <input value="album" name=filter type=radio id=albums />
+                        <label for=albums>Albums</label>
+                        <input value="playlist" name=filter type=radio id=playlists />
+                        <label for=playlists>Playlists</label>
+                        <input value="user" name=filter type=radio id=users />
+                        <label for=users>Users</label>
+                    </div>
+
+                    <div class=scroll>
+                        <div class=content>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

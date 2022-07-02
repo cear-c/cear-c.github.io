@@ -1,0 +1,369 @@
+#list {
+    display: flex;
+    flex-direction: column;
+}
+
+#list.load :is(.search, #items) {
+    filter: brightness(0.75);
+    pointer-events: none;
+}
+
+#info, #items {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--transition);
+}
+
+#items {
+    height: calc(100% - 3.5rem);
+    transform: translateY(100%);
+    background-color: var(--background);
+}
+
+#info.hidden {
+    transform: translateY(calc(-50% + 1.75rem));
+}
+
+#info.hidden + #items {
+    transform: translateY(0);
+}
+
+#info.hidden .search {
+    background-color: var(--surface);
+}
+
+#info.hidden .search .i-search {
+    display: none;
+}
+
+#info:not(.hidden) .search .i-back {
+    display: none;
+}
+
+#info:not(.hidden) .search input[type=text] {
+    pointer-events: none;
+}
+
+#info .search input[type=text]:placeholder-shown + .i-close {
+    pointer-events: none;
+    opacity: 0;
+}
+
+
+
+/**/
+
+
+
+#info :is(.top, .bot) {
+    height: 0;
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+
+/**/
+
+
+
+#info .search {
+    width: 100%;
+    height: 3.5rem;
+    padding: 0.5rem;
+}
+
+#info .search .input {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: var(--hover);
+    transition: outline-width var(--transition), border-radius 0s calc(var(--transition) / 2);
+    outline: 0 solid var(--hover);
+    border-radius: var(--sharp);
+    overflow: visible;
+}
+
+#info .search .input:focus-within {
+    transition: outline-width var(--transition);
+    outline-width: 0.5rem;
+    border-radius: 0;
+}
+
+#info .search .icon {
+    width: 2rem;
+    height: 3.5rem;
+    --size: 1.25rem;
+}
+
+#info .search .close {
+    --size: 1.5rem;
+}
+
+#info .search input[type=text] {
+    width: 0;
+    flex-grow: 1;
+    height: 3.5rem;
+    padding: 0 0.5rem;
+    caret-color: var(--green);
+}
+
+#info .search .input input[type=text]::placeholder {
+    transition-duration: var(--transition);
+    transition-property: color, transform;
+    transform: translateX(0);
+    color: var(--foreground);
+    text-align: center;
+}
+
+#info .search .input:focus-within input[type=text]::placeholder {
+    transform: translateX(calc(-50% + 25px));
+    color: var(--muted);
+}
+
+
+
+/**/
+
+
+
+#items {
+    display: flex;
+    flex-direction: column;
+}
+
+#items .header.hidden {
+    display: none;
+}
+
+#items .header:not(.hidden) + .filter {
+    display: none;
+}
+
+#items .header {
+    padding: 0.25rem 0;
+    background-color: var(--surface);
+}
+
+#items .filter {
+    padding: 1rem;
+    overflow-x: scroll;
+    display: flex;
+}
+
+#items .filter label {
+    height: 2rem;
+    font-size: 0.75rem;
+    margin-right: 0.5rem;
+    padding: 0 1rem;
+
+    display: flex;
+    align-items: center;
+    border-radius: 50vh;
+    border: 1.5px solid var(--border);
+}
+
+#items .filter input[type=radio]:checked + label {
+    background-color: rgba(30, 215, 96, 0.6);
+    border-color: var(--green);
+}
+
+#items .scroll {
+    height: 0;
+    width: 100%;
+    flex-grow: 1;
+    overflow-y: scroll;
+    padding-bottom: 7.5rem;
+    padding-top: 1rem;
+}
+
+#items .scroll .content > span {
+    color: var(--muted);
+    white-space: pre-wrap;
+    padding: 0 1rem;
+}
+
+#items .scroll .content > * {
+    display: flex;
+}
+
+
+
+/**/
+
+
+
+#items .header .item {
+    opacity: 1;
+}
+
+#items .header .item img {
+    pointer-events: initial;
+}
+
+#items .header .item .love {
+    width: 2.5rem;
+    height: 100%;
+}
+
+#items .header .item .icon {
+    width: 2.5rem;
+    --size: 1.5rem;
+}
+
+#items .header .item .type {
+    margin-right: 0.25rem;
+}
+
+
+
+/**/
+
+
+
+#items .item {
+    width: 100%;
+    height: 4rem;
+    padding: 0.5rem 0;
+    align-items: center;
+    display: flex;
+}
+
+#items .item.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+#items .item.seperate {
+    margin-top: 2.5rem;
+}
+
+#items .item .index {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--muted);
+}
+
+#items .item img {
+    width: 3rem;
+    height: 3rem;
+    margin-right: 1rem;
+}
+
+#items .item img:first-child {
+    margin-left: 1rem;
+}
+
+#items .item img.round {
+    border-radius: 50%;
+}
+
+#items .item .name {
+    width: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#items .item .name span {
+    max-width: 100%;
+    text-overflow: ellipsis;
+}
+
+#items .item .title.playing {
+    color: var(--green);
+}
+
+#items .item .name .artists {
+    font-size: var(--small);
+    margin-top: 0.25rem;
+    color: var(--muted);
+}
+
+#items .item .icon {
+    width: 2rem;
+    height: 100%;
+    --size: 1.25rem;
+}
+
+#items .item .type {
+    background-color: var(--muted);
+    margin-right: 0.5rem;
+}
+
+#items .item .i-playing {
+    background-color: var(--green);
+    --size: 1rem;
+}
+
+
+
+/**/
+
+
+
+#items .item {
+    touch-action: pan-y;
+    transition: transform var(--transition);
+}
+
+#items .item.queue {
+    --pos: 0px;
+    overflow: visible;
+    position: relative;
+    transform: translateX(var(--pos));
+    transition: none;
+    opacity: 1;
+}
+
+#items .item.queue.queued {
+    transition: transform var(--transition);
+}
+
+#items .item.queue::before, #items .item.queue::after {
+    top: 0;
+    height: 100%;
+    position: absolute;
+    content: '';
+}
+
+#items .item.queue::before {
+    width: 11rem;
+    left: -12rem;
+    background-color: var(--green);
+}
+
+#items .item.queue::after {
+    width: var(--size);
+    left: -72px;
+    --size: 22px;
+
+    --mask-position: center;
+    --mask-repeat: no-repeat;
+    --mask-size: var(--size) var(--size);
+    --mask-image: url(/assets/icons/queue.svg);
+    background-color: var(--foreground);
+
+    mask-size: var(--mask-size);
+    mask-image: var(--mask-image);
+    mask-repeat: var(--mask-repeat);
+    mask-position: var(--mask-position);
+    -webkit-mask-size: var(--mask-size);
+    -webkit-mask-image: var(--mask-image);
+    -webkit-mask-repeat: var(--mask-repeat);
+    -webkit-mask-position: var(--mask-position);
+}

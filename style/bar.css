@@ -1,0 +1,292 @@
+#bar {
+    height: 3.5rem;
+    width: 100%;
+    z-index: 1;
+
+    --background: var(--hover);
+    border-radius: var(--round);
+    transition: opacity var(--transition), height 0s var(--transition);
+}
+
+#bar:is(.controls, .session) {
+    transition: opacity var(--transition);
+    height: 6.5rem;
+}
+
+#content {
+    transition: background-color var(--transition);
+    z-index: 2;
+}
+
+:is(#controls, #session) {
+    transition: transform var(--transition), background-color var(--transition), visibility 0s var(--transition);
+    transform: translateY(0);
+    visibility: hidden;
+}
+
+#bar.controls #controls, #bar.session #session {
+    transition: transform var(--transition), background-color var(--transition);
+    transform: translateY(-3rem);
+    visibility: initial;
+    z-index: 1;
+}
+
+#bar .progress {
+    height: 2px;
+    margin: 0 0.5rem;
+    width: calc(100% - 1rem);
+    z-index: 3;
+
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    background-color: var(--line);
+}
+
+#bar .progress > div {
+    --pos: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: var(--foreground);
+    transform: translateX(var(--pos));
+}
+
+#bar > div:not(.progress) {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3.5rem;
+    padding: 0.5rem;
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    border-radius: var(--round);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: var(--background);
+}
+
+
+
+/**/
+
+
+
+#content img {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 0.5rem;
+    border-radius: var(--sharp);
+    pointer-events: initial;
+}
+
+#content :is(.name, .icons) {
+    height: 100%;
+    display: flex;
+}
+
+#content .name {
+    width: 0;
+    flex-grow: 1;
+}
+
+#content .name .curr {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: visible;
+    transform: translateX(0px);
+    transition: transform var(--transition);
+    touch-action: pan-y;
+
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+}
+
+#content .name .curr.held {
+    --pos: 0px;
+    transition: none;
+    transform: translateX(var(--pos));
+}
+
+#content .name .curr > * {
+    max-width: 100%;
+    width: min-content;
+    font-size: var(--small);
+    text-overflow: ellipsis;
+}
+
+#content .name .artists {
+    margin-top: 0.25rem;
+    color: var(--muted);
+}
+
+#content .icons {
+    overflow: visible;
+}
+
+#content .icon {
+    width: 2rem;
+    height: 100%;
+    --size: 1.5rem;
+    z-index: 1;
+}
+
+#content .i-love {
+    width: 2rem;
+    height: 100%;
+    margin-left: 0.25rem;
+}
+
+#content :is(.i-queue, .i-session) {
+    transform: scale(0.9);
+    background-color: var(--muted);
+}
+
+#content .i-session.open {
+    background-color: var(--green);
+}
+
+
+
+/**/
+
+
+
+#controls .range {
+    width: 0;
+    height: 100%;
+    flex-grow: 1;
+    margin: 0 0.5rem;
+    display: flex;
+}
+
+#controls .icon {
+    height: 100%;
+}
+
+#controls > .icon {
+    --size: 1.75rem;
+    width: 2.5rem;
+}
+
+#controls .slider {
+    width: 0;
+    height: 100%;
+    flex-grow: 1;
+    display: flex;
+    margin: 0 0.5rem;
+    flex-direction: column;
+    justify-content: center;
+    touch-action: pan-y;
+}
+
+#controls .slider.disabled {
+    pointer-events: none;
+}
+
+#controls .slider .time {
+    display: flex;
+    justify-content: space-between;
+}
+
+#controls .slider .time span {
+    color: var(--muted);
+    font-size: 0.75rem;
+    line-height: 1;
+}
+
+#controls .slider .input {
+    height: 3px;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    background-color: var(--line);
+    overflow: visible;
+}
+
+#controls .slider .input > div {
+    --pos: -100%;
+    height: 100%;
+    width: calc(100% - 0.5rem);
+    background-color: var(--foreground);
+    transform: translateX(var(--pos));
+    overflow: visible;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#controls .slider.disabled .input > div {
+    visibility: hidden;
+}
+
+#controls .slider .input > div > div {
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-right: -0.5rem;
+    background-color: var(--foreground);
+    border-radius: 50%;
+}
+
+#controls .slider .input > div.drag > div {
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-right: -0.75rem;
+    outline: 0.25rem solid var(--line);
+}
+
+
+
+/**/
+
+
+
+#session .name {
+    width: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#session .name span {
+    font-size: var(--small);
+    text-overflow: ellipsis;
+}
+
+#session .name .bot {
+    margin-top: 0.25rem;
+    align-items: center;
+    display: flex;
+}
+
+#session .name .bot .icon {
+    --size: 0.75rem;
+    margin-right: 0.25rem;
+    background-color: var(--green);
+    display: none;
+}
+
+#session .name .bot span {
+    color: var(--muted);
+}
+
+#session.open .name .bot .icon {
+    display: initial;
+}
+
+#session.open .name .bot span {
+    color: var(--green);
+}
+
+#session button {
+    font-size: 12px;
+    padding: 0.5rem 1rem;
+    background-color: var(--foreground);
+    border-radius: 50vw;
+    font-weight: bold;
+    color: black;
+}

@@ -1,0 +1,253 @@
+@font-face {
+    font-family: circular;
+    src: url(/assets/font/circular.woff2);
+}
+
+html {
+    --line: hsla(0, 0%, 100%, 0.3);
+    --foreground: #ffffff;
+    --background: #121212;
+    --surface: #2a2a2a;
+    --border: #7f7f7f;
+    --hover: #535353;
+    --muted: #b3b3b3;
+    --green: #1ed760;
+
+    --sharp: 4px;
+    --round: 6px;
+    --small: 14px;
+    --transition: 0.2s;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background-color: var(--background);
+}
+
+* {
+    font-size: 16px;
+    line-height: 1.1;
+    white-space: nowrap;
+    color: var(--foreground);
+    font-family: circular, 'Helvetica Neue', helvetica, arial, sans-serif;
+
+    box-sizing: border-box;
+    flex-shrink: 0;
+    flex-grow: 0;
+    padding: 0;
+    margin: 0;
+
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    background-color: transparent;
+    scrollbar-width: 0;
+    user-select: none;
+    overflow: hidden;
+    outline: none;
+    border: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+a, a:link, a:visited, a:hover, a:active, a:focus, a:focus-within, a:focus-visible {
+    text-decoration: none !important;
+}
+
+input[type=radio] {
+    display: none;
+}
+
+img {
+    pointer-events: none;
+}
+
+canvas, #main, #bar, #list, #items, #items > .scroll, #main > .popup {
+    contain: strict;
+}
+
+
+
+/**/
+
+
+
+body {
+    position: relative;
+}
+
+canvas {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+    background-color: black;
+}
+
+#main {
+    width: 100%;
+    height: 100%;
+    max-width: 50rem;
+    position: relative;
+    padding: 0.5rem;
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#list {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: var(--background);
+    transition: transform var(--transition);
+    transform: translateY(0%);
+}
+
+#list.hidden {
+    transition: transform var(--transition), visibility 0s var(--transition);
+    transform: translateY(100%);
+    visibility: hidden;
+}
+
+#bar {
+    z-index: 1;
+    position: relative;
+}
+
+#bar.hidden {
+    opacity: 0;
+}
+
+#bar.hidden > * {
+    pointer-events: none;
+}
+
+
+
+/**/
+
+
+
+#main .popup {
+    width: 100%;
+    height: 3rem;
+    padding: 0 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: var(--small);
+    border-radius: var(--round);
+    background-color: var(--foreground);
+    white-space: pre-wrap;
+    align-items: center;
+    display: flex;
+    color: black;
+    z-index: 2;
+
+    animation: up var(--transition);
+}
+
+@keyframes up {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+
+/**/
+
+
+
+.icon.i-back { --mask-image: url(/assets/icons/back.svg); }
+.icon.i-prev { --mask-image: url(/assets/icons/prev.svg); }
+.icon.i-next { --mask-image: url(/assets/icons/next.svg); }
+.icon.i-queue { --mask-image: url(/assets/icons/queue.svg); }
+.icon.i-close { --mask-image: url(/assets/icons/close.svg); }
+.icon.i-listen { --mask-image: url(/assets/icons/listen.svg); }
+.icon.i-search { --mask-image: url(/assets/icons/search.svg); }
+.icon.i-session { --mask-image: url(/assets/icons/session.svg); }
+
+.icon.i-user { --mask-image: url(/assets/icons/user.svg); }
+.icon.i-track { --mask-image: url(/assets/icons/track.svg); }
+.icon.i-album { --mask-image: url(/assets/icons/album.svg); }
+.icon.i-artist { --mask-image: url(/assets/icons/artist.svg); }
+.icon.i-playlist { --mask-image: url(/assets/icons/playlist.svg); }
+
+.icon.i-play { --mask-image: url(/assets/icons/play.svg); }
+.icon.i-play.pause { --mask-image: url(/assets/icons/pause.svg); }
+
+.icon.i-text {
+    --mask-image: url(/assets/icons/text.svg);
+    background-color: var(--green);
+}
+.icon.i-text.mute, .icon.i-text:disabled {
+    --mask-image: url(/assets/icons/mute.svg);
+    background-color: var(--foreground);
+}
+
+.icon.i-loop { --mask-image: url(/assets/icons/loop.svg); }
+.icon.i-loop.repeat { --mask-image: url(/assets/icons/repeat.svg); }
+.icon.i-loop.repeat { background-color: var(--green); }
+
+.icon.i-playing { --mask-image: url(/assets/icons/playing.gif); }
+.icon.i-playing.paused { --mask-image: url(/assets/icons/playing.svg); }
+
+.icon:is(.i-text, .i-loop) {
+    --mask-position: center 75%;
+}
+
+.icon {
+    --size: 1rem;
+    width: var(--size);
+    height: var(--size);
+    background-color: var(--foreground);
+
+    --mask-position: center;
+    --mask-repeat: no-repeat;
+    --mask-size: var(--size) var(--size);
+
+    mask-size: var(--mask-size);
+    mask-image: var(--mask-image);
+    mask-repeat: var(--mask-repeat);
+    mask-position: var(--mask-position);
+    -webkit-mask-size: var(--mask-size);
+    -webkit-mask-image: var(--mask-image);
+    -webkit-mask-repeat: var(--mask-repeat);
+    -webkit-mask-position: var(--mask-position);
+}
+
+.icon:active, .item:active, label:active, button:active {
+    opacity: 0.75;
+}
+
+.icon:disabled, .item:disabled, label:disabled, button:disabled {
+    opacity: 0.25;
+}
+
+.love.i-love {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+.love.i-love svg {
+    --size: 3.5rem;
+    width: var(--size);
+    height: var(--size);
+    pointer-events: none;
+    overflow: visible;
+}
