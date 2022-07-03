@@ -206,7 +206,6 @@ canvas {
 .icon.i-playing { --mask-image: url(/assets/icons/playing.gif); }
 .icon.i-playing.paused { --mask-image: url(/assets/icons/playing.svg); }
 
-
 .icon.i-text {
     background-color: var(--green);
     --mask-image: url(/assets/icons/text.svg);

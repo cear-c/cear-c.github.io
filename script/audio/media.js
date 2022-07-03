@@ -14,11 +14,11 @@ const init = () => {
     })
 
     navigator.mediaSession.setActionHandler('play', () => {
-        player.pause(false); // TODO session
+        player.pause(false);
     })
 
     navigator.mediaSession.setActionHandler('pause', () => {
-        player.pause(true); // TODO session
+        player.pause(true);
     })
 
     navigator.mediaSession.setActionHandler('seekto', e => {
