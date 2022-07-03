@@ -1,13 +1,6 @@
 import request from '/script/util/request.js';
-import events from '/script/util/events.js';
 import audio from '/script/audio/index.js';
 import keys from '/script/audio/keys.js';
-
-const ev = events('MEDIA SOURCE');
-
-keys.on('info', (...a) => ev.emit('info', ...a));
-keys.on('warn', (...a) => ev.emit('warn', ...a));
-keys.on('error', (...a) => ev.emit('error', ...a));
 
 
 
@@ -16,7 +9,6 @@ const cdn = (url, fragments) => {
         let f = fragments || [];
         let start = f[0]?.byte[0] || 0;
         let end = f[f.length - 1]?.byte[1] || 0;
-        ev.info('REQUEST', start, end);
         let headers = end && { 'Range': `bytes=${start}-${end}` };
         request('GET', url, { headers, res: 'array' }).then(res => {
             let expected = res?.byteLength === end - start + 1;
@@ -41,14 +33,11 @@ const destroy = media => {
     media.onsourceclose = undefined;
     for (let i = 0; i < media.sourceBuffers.length; ++i) {
         let buffer = media.sourceBuffers[i];
-        ev.info('DESTROY');
         try {
             media.removeSourceBuffer(buffer);
             buffer.onupdateend = undefined;
         }
-        catch (err) {
-            ev.warn('DESTROY', err);
-        }
+        catch (err) {}
     }
 }
 
@@ -57,7 +46,6 @@ const abort = (media, clear) => {
     if (media?.readyState !== 'open') return;
     for (let i = 0; i < media.sourceBuffers.length; ++i) {
         let buffer = media.sourceBuffers[i];
-        ev.info('ABORT');
         try {
             buffer.abort();
             let buffered = buffer.buffered;
@@ -68,9 +56,7 @@ const abort = (media, clear) => {
                 buffer.remove(start, end);
             }
         }
-        catch (err) {
-            ev.warn('ABORT', err);
-        }
+        catch (err) {}
     }
 }
 
@@ -87,15 +73,12 @@ const updating = media => {
 
 const open = (media, codec) => {
     try {
-        ev.info('OPEN');
         let buffer = media.addSourceBuffer(codec);
         buffer.onupdateend = dequeue;
         return buffer;
     }
-    catch (err) {
-        ev.warn('OPEN', err);
-        return undefined;
-    }
+    catch (err) {}
+    return undefined;
 }
 
 
@@ -125,7 +108,6 @@ const update = e => {
         if (_.media.readyState === 'ended') return;
         if (updating(_.media)) return queue(e);
         _.media.endOfStream();
-        ev.info('END');
         return;
     }
 
@@ -139,11 +121,9 @@ const update = e => {
             res.set(new Uint8Array(e.buffer), init);
             res.set(new Uint8Array(_.init), 0);
             _.buffer.appendBuffer(res.buffer);
-            ev.info('APPEND');
             return;
         }
         catch (err) {
-            ev.warn('APPEND', err);
             if (err?.name === 'QuotaExceededError') {
                 abort(_.media, true);
             }
@@ -191,8 +171,7 @@ const append = (fragments, retry, end) => {
         if (end) {
             update({ type: 'end' });
         }
-    }, err => {
-        ev.warn('REQUEST', err);
+    }, () => {
         pop(appending);
         if (!retry) return;
         if (_.id === retry) {
@@ -285,6 +264,5 @@ const play = (audio, file) => {
 
 export default {
     init,
-    play,
-    ...ev
+    play
 }

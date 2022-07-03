@@ -7,14 +7,6 @@ import keys from './keys.js';
 
 const ev = events('AUDIO');
 
-source.on('info', (...a) => ev.emit('info', ...a));
-source.on('warn', (...a) => ev.emit('warn', ...a));
-source.on('error', (...a) => ev.emit('error', ...a));
-
-hls.on('info', (...a) => ev.emit('info', ...a));
-hls.on('warn', (...a) => ev.emit('warn', ...a));
-hls.on('error', (...a) => ev.emit('error', ...a));
-
 
 
 const fragments = file => {
@@ -91,20 +83,16 @@ const init = () => {
 }
 
 const set = t => {
-    ev.info('SET', t);
     _.audio.currentTime = t;
     update();
 }
 
 const pause = p => {
     if (!_.audio?.src) return;
-    ev.info('PAUSE', p);
     if (p) _.audio.pause();
     else {
         if (!_.audio.paused) return;
-        _.audio.play().catch(err => {
-            ev.warn('PLAY', err);
-        })
+        _.audio.play().catch(() => {});
     }
 }
 
@@ -135,7 +123,6 @@ const play = e => {
             }
 
             if (!start) return error();
-            ev.info('PLAY', e);
 
             _.audio.volume = 1;
             start.then(quit => {

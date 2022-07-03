@@ -1,8 +1,6 @@
 import events from '/script/util/events.js';
 import player from '/script/player.js';
 
-const ev = events('VIDEO');
-
 
 
 const _ = {};
@@ -33,6 +31,5 @@ export default {
     init,
     set,
     pause,
-    play,
-    ...ev
+    play
 }

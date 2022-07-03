@@ -34,13 +34,6 @@ const play = e => {
         artist: e.meta.artists,
         title: e.meta.name
     })
-
-    return;
-    if (!e?.track?.duration) return;
-    navigator.mediaSession.setPositionState({
-        duration: e.track.duration,
-        position: 0
-    })
 }
 
 

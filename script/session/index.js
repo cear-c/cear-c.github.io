@@ -1,9 +1,7 @@
-import events from '/script/util/events.js';
 import popup from '/script/util/popup.js';
 import player from '/script/player.js';
+import copy from './copy.js';
 import ws from './ws.js';
-
-const ev = events('SESSION');
 
 
 
@@ -69,8 +67,7 @@ const init = () => {
         history.replaceState(null, '', '/?' + id);
         if (!host) return popup(`You've joined the group session.`);
 
-        let url = window.location.href;
-        navigator.clipboard.writeText(url).then(() => {
+        copy(window.location.href).then(() => {
             popup(`Session link copied to your clipboard.`);
         }, () => popup(`Copy session link from the address bar.`));
     })
@@ -140,19 +137,23 @@ const count = (open, join, c) => {
 
 const set = t => {
     if (!ws.active()) return false;
+
     if (_.joined) ws.send({
         set: t
     })
+
     return true;
 }
 
 const pause = p => {
     if (!ws.active()) return false;
     let loop = !p && player.ended();
+
     if (_.joined) ws.send({
         set: loop ? 0 : player.time(),
         pause: p
     })
+
     return true;
 }
 
@@ -166,6 +167,7 @@ const play = e => {
         track: uri,
         set: 0
     })
+
     return true;
 }
 
@@ -175,6 +177,5 @@ export default {
     init,
     set,
     pause,
-    play,
-    ...ev
+    play
 }

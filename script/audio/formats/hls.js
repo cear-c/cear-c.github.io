@@ -1,7 +1,4 @@
-import events from '/script/util/events.js';
 import keys from '/script/audio/keys.js';
-
-const ev = events('MEDIA HLS');
 
 const init = () => {}
 
@@ -49,11 +46,6 @@ const data = src => {
     return 'data:application/vnd.apple.mpegurl;base64,'.concat(btoa(src));
 }
 
-const blob = src => { // TODO ?
-    let blob = new Blob([src], { type: 'application/vnd.apple.mpegurl' });
-    return URL.createObjectURL(blob);
-}
-
 
 
 const play = (audio, file) => {
@@ -74,6 +66,5 @@ const play = (audio, file) => {
 
 export default {
     init,
-    play,
-    ...ev
+    play
 }

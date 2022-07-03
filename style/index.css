@@ -27,7 +27,7 @@ html, body {
 
 * {
     font-size: 16px;
-    line-height: 1.1;
+    line-height: 1.2;
     white-space: nowrap;
     color: var(--foreground);
     font-family: circular, 'Helvetica Neue', helvetica, arial, sans-serif;
@@ -62,6 +62,10 @@ input[type=radio] {
 
 img {
     pointer-events: none;
+}
+
+textarea {
+    resize: none;
 }
 
 canvas, #main, #bar, #list, #items, #items > .scroll, #main > .popup {

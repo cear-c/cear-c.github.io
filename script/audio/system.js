@@ -237,6 +237,7 @@ const access = (system, config) => {
 }
 
 
+
 const safari = typeof WebKitMediaKeys === 'function';
 
 const attach = (audio, keys) => {

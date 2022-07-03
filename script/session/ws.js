@@ -39,7 +39,10 @@ const open = id => {
         catch (err) { return; }
 
         if (!_.i && data.id) {
-            if (!data.time) data.time = Date.now();
+            if (!data.time) {
+                data.time = Date.now();
+            }
+
             _.i = setInterval(() => {
                 send('ping');
             }, _beat);

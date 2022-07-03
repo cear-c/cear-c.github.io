@@ -4,24 +4,9 @@ import video from './video/index.js';
 import list from './list/index.js';
 import bar from './bar/index.js';
 
-import events from '/script/util/events.js';
 import popup from '/script/util/popup.js';
 import store from '/script/util/store.js';
 import api from '/script/util/api.js';
-
-const ev = events('PLAYER');
-
-session.on('info', (...a) => ev.emit('info', ...a));
-session.on('warn', (...a) => ev.emit('warn', ...a));
-session.on('error', (...a) => ev.emit('error', ...a));
-
-audio.on('info', (...a) => ev.emit('info', ...a));
-audio.on('warn', (...a) => ev.emit('warn', ...a));
-audio.on('error', (...a) => ev.emit('error', ...a));
-
-video.on('info', (...a) => ev.emit('info', ...a));
-video.on('warn', (...a) => ev.emit('warn', ...a));
-video.on('error', (...a) => ev.emit('error', ...a));
 
 
 
@@ -38,14 +23,9 @@ const init = () => {
         bar[f](a);
     }
 
-    audio.on('end', () => end());
-    audio.on('set', t => event('set', t));
-    audio.on('play', e => event('play', e));
     audio.on('pause', p => event('pause', p));
-
-    session.on('pause', p => audio.pause(p));
-    session.on('play', e => audio.play(e));
-    session.on('set', t => audio.set(t));
+    audio.on('set', t => event('set', t));
+    audio.on('end', () => end());
 
     store.init();
     list.init();
@@ -70,13 +50,12 @@ const pause = (p, s) => {
 
 
 
-const error = err => {
+const error = () => {
     _.e = null;
     bar.play(null);
     list.play(null);
     video.play(null);
     popup(`Can't play this right now.`);
-    ev.error(err);
     load();
 }
 
@@ -89,7 +68,7 @@ const load = () => {
 }
 
 const play = (e, q, s) => {
-    let meta = e?.meta || e || null; // TODO TEST
+    let meta = e?.meta || e || null;
     let query = typeof q === 'object';
     if (query && !_.q.e) _.q.e = q;
     else if (!q) delete _.q.e;
@@ -101,7 +80,7 @@ const play = (e, q, s) => {
 
     if (_.loading) return _.load = { e, q, s };
     if (!s && session.play(e)) return;
-    let fade = audio.fade(); // TODO TEST
+    let fade = audio.fade();
     _.loading = true;
 
     let track;
@@ -203,6 +182,5 @@ export default {
     ended,
     paused,
     duration,
-    time,
-    ...ev
+    time
 }

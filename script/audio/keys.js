@@ -1,9 +1,6 @@
-import system, { attach } from './system.js';
 import request from '/script/util/request.js';
-import events from '/script/util/events.js';
+import system, { attach } from './system.js';
 import api from '/script/util/api.js';
-
-const ev = events('MEDIA KEYS');
 
 
 
@@ -116,7 +113,6 @@ const _ = {};
 
 const access = async () => {
     if (_.system) return _.system;
-    ev.info('ACCESS');
     let keys = Object.keys(systems);
     for (let i = 0; i < keys.length; ++i) {
         try {
@@ -134,7 +130,6 @@ const access = async () => {
 
 const unlock = async system => {
     if (_.keys) return _.keys;
-    ev.info('UNLOCK');
     let key = system.keySystem;
     let type = systems[key].cert;
     let keys = await system.createMediaKeys();
@@ -191,10 +186,10 @@ const encrypted = (audio, system, file) => {
 
 
 const update = (system, keys, { type, init }) => {
-    ev.info('SESSION');
     return new Promise((resolve, reject) => {
         try { _.session?.close(); }
-        catch (err) { ev.warn('CLOSE', err); }
+        catch (err) {}
+
         let config = system.getConfiguration();
         let session = keys.createSession(config.sessionTypes[0]);
         if (_.expire) clearTimeout(_.expire);
@@ -203,7 +198,6 @@ const update = (system, keys, { type, init }) => {
 
         if (!session) return reject();
         session.onkeystatuseschange = () => {
-            ev.info('STATUS');
             if (!_.expire && _.session === session) {
                 resolve();
             }
@@ -214,13 +208,11 @@ const update = (system, keys, { type, init }) => {
             let slack = 1000 * 60 * 5;
 
             _.expire = setTimeout(() => {
-                ev.info('EXPIRE');
                 update(system, keys, { init, type });
             }, expire - slack);
         }
 
         const message = async msg => {
-            ev.info('MESSAGE');
             session.onmessage = undefined;
             let res = await license(system.keySystem, msg.message);
             await session.update(res);
@@ -242,7 +234,9 @@ const decrypt = async (audio, file) => {
 
     let keys = await unlock(system);
     if (set) await attach(audio, keys);
-    await update(system, keys, await encrypt);
+
+    let data = await encrypt;
+    await update(system, keys, data);
 }
 
 
@@ -250,6 +244,5 @@ const decrypt = async (audio, file) => {
 export default {
     systems,
     access,
-    decrypt,
-    ...ev
+    decrypt
 }
