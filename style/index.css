@@ -141,23 +141,6 @@ canvas {
 
 
 
-#main .popup {
-    width: 100%;
-    height: 3rem;
-    padding: 0 1.5rem;
-    margin-bottom: 0.5rem;
-    font-size: var(--small);
-    border-radius: var(--round);
-    background-color: var(--foreground);
-    white-space: pre-wrap;
-    align-items: center;
-    display: flex;
-    color: black;
-    z-index: 2;
-
-    animation: up var(--transition);
-}
-
 @keyframes up {
     0% {
         opacity: 0;
@@ -167,6 +150,35 @@ canvas {
         opacity: 1;
         transform: scale(1);
     }
+}
+
+#main .popup {
+    width: 100%;
+    height: 3rem;
+    padding-left: 1rem;
+    padding-right: 1.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: var(--round);
+    background-color: var(--foreground);
+    align-items: center;
+    display: flex;
+    z-index: 2;
+
+    animation: up var(--transition);
+}
+
+#main .popup span {
+    flex-shrink: 1;
+    padding-left: 0.5rem;
+    font-size: var(--small);
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
+    color: black;
+}
+
+#main .popup .icon {
+    background-color: black;
+    --size: 1.25rem;
 }
 
 
@@ -183,6 +195,7 @@ canvas {
 .icon.i-listen { --mask-image: url(/assets/icons/listen.svg); }
 .icon.i-search { --mask-image: url(/assets/icons/search.svg); }
 .icon.i-session { --mask-image: url(/assets/icons/session.svg); }
+.icon.i-link { --mask-image: url(/assets/icons/link.svg); }
 
 .icon.i-user { --mask-image: url(/assets/icons/user.svg); }
 .icon.i-track { --mask-image: url(/assets/icons/track.svg); }
@@ -190,24 +203,27 @@ canvas {
 .icon.i-artist { --mask-image: url(/assets/icons/artist.svg); }
 .icon.i-playlist { --mask-image: url(/assets/icons/playlist.svg); }
 
-.icon.i-play { --mask-image: url(/assets/icons/play.svg); }
-.icon.i-play.pause { --mask-image: url(/assets/icons/pause.svg); }
+.icon.i-playing { --mask-image: url(/assets/icons/playing.gif); }
+.icon.i-playing.paused { --mask-image: url(/assets/icons/playing.svg); }
+
 
 .icon.i-text {
-    --mask-image: url(/assets/icons/text.svg);
     background-color: var(--green);
+    --mask-image: url(/assets/icons/text.svg);
 }
 .icon.i-text.mute, .icon.i-text:disabled {
     --mask-image: url(/assets/icons/mute.svg);
     background-color: var(--foreground);
 }
 
-.icon.i-loop { --mask-image: url(/assets/icons/loop.svg); }
-.icon.i-loop.repeat { --mask-image: url(/assets/icons/repeat.svg); }
-.icon.i-loop.repeat { background-color: var(--green); }
+.icon.i-play { --mask-image: url(/assets/icons/play.svg); }
+.icon.i-play.pause { --mask-image: url(/assets/icons/pause.svg); }
 
-.icon.i-playing { --mask-image: url(/assets/icons/playing.gif); }
-.icon.i-playing.paused { --mask-image: url(/assets/icons/playing.svg); }
+.icon.i-loop { --mask-image: url(/assets/icons/loop.svg); }
+.icon.i-loop.repeat {
+    --mask-image: url(/assets/icons/repeat.svg);
+    background-color: var(--green);
+}
 
 .icon:is(.i-text, .i-loop) {
     --mask-position: center 75%;

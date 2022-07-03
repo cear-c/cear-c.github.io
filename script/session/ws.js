@@ -5,7 +5,7 @@ const ev = events('SOCKET');
 
 const _api = api.replace('http', 'ws');
 
-const _beat = 1000 * 10;
+const _beat = 1000 * 25;
 
 
 

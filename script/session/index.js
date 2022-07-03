@@ -1,6 +1,6 @@
 import popup from '/script/util/popup.js';
+import copy from '/script/util/copy.js';
 import player from '/script/player.js';
-import copy from './copy.js';
 import ws from './ws.js';
 
 
@@ -9,7 +9,8 @@ const _ = {};
 
 
 
-const id = () => location.search.slice(1);
+const id = () => _.id || '';
+const search = () => location.search.slice(1);
 
 const init = () => {
     _.bar = document.querySelector('#bar');
@@ -21,21 +22,20 @@ const init = () => {
 
     ws.init();
 
-    let join = !!id();
+    _.id = search();
+    let join = !!_.id;
     if (join) _.bar.className = 'session';
     fill(false, join, false);
 
     _.btn.onclick = () => {
         if (ws.active()) return close();
-        open(id());
+        open(search());
     }
 
     ws.on('msg', e => {
         if (e.count) count(1, 0, e.count - 1);
 
         const update = () => {
-            _.joined = true;
-
             if (e.pause !== undefined) {
                 player.pause(e.pause, true);
             }
@@ -47,7 +47,7 @@ const init = () => {
                 if (time && time < now) {
                     set += (now - time) / 1000;
                 }
-    
+
                 player.set(set, true);
             }
         }
@@ -66,18 +66,20 @@ const init = () => {
         player.play(null, null, true);
         history.replaceState(null, '', '/?' + id);
         if (!host) return popup(`You've joined the group session.`);
+        _.id = id;
 
-        copy(window.location.href).then(() => {
+        let p = 'Copy session link';
+        copy(window.location.href, p).then(() => {
             popup(`Session link copied to your clipboard.`);
-        }, () => popup(`Copy session link from the address bar.`));
+        }, () => popup(`Copy session link from the address bar.`, 'link'));
     })
 
     const end = msg => {
         fill(false, false, false);
         player.play(null, null, true);
         history.replaceState(null, '', '/');
-        delete _.joined;
         delete _.meta;
+        delete _.id;
         popup(msg);
     }
 
@@ -89,6 +91,7 @@ const init = () => {
 
 const open = id => {
     fill(false, !!id, true);
+    player.prep();
     ws.open(id);
 }
 
@@ -138,7 +141,7 @@ const count = (open, join, c) => {
 const set = t => {
     if (!ws.active()) return false;
 
-    if (_.joined) ws.send({
+    ws.send({
         set: t
     })
 
@@ -148,9 +151,10 @@ const set = t => {
 const pause = p => {
     if (!ws.active()) return false;
     let loop = !p && player.ended();
+    let t = loop ? 0 : player.time();
 
-    if (_.joined) ws.send({
-        set: loop ? 0 : player.time(),
+    ws.send({
+        set: t,
         pause: p
     })
 
@@ -163,7 +167,7 @@ const play = e => {
     let uri = meta?.uri;
     _.meta = meta;
 
-    if (uri && _.joined) ws.send({
+    if (uri) ws.send({
         track: uri,
         set: 0
     })
@@ -175,6 +179,7 @@ const play = e => {
 
 export default {
     init,
+    id,
     set,
     pause,
     play

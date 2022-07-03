@@ -36,6 +36,10 @@ const init = () => {
     session.init();
 }
 
+const prep = () => {
+    audio.prep();
+}
+
 
 
 const set = (t, s) => {
@@ -74,6 +78,7 @@ const play = (e, q, s) => {
     else if (!q) delete _.q.e;
     _.e = meta;
 
+    prep();
     bar.play(meta);
     list.play(meta);
     video.play(null);
@@ -91,6 +96,12 @@ const play = (e, q, s) => {
 
     track.then(res => {
         fade.then(() => {
+            let uri = res?.meta?.uri;
+            if (uri !== _.e?.uri) {
+                list.play(meta);
+                bar.play(meta);
+            }
+
             bar.update(res);
             video.play(res);
             audio.play(res).then(() => {
@@ -171,6 +182,7 @@ const time = () => audio.time();
 
 export default {
     init,
+    prep,
     set,
     pause,
     play,

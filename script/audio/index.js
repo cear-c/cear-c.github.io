@@ -82,6 +82,16 @@ const init = () => {
     media.init();
 }
 
+const prep = () => {
+    if (_.prepared) return;
+    if (_.audio.src) return;
+    _.prepared = true;
+
+    _.audio.play().catch(() => {});
+}
+
+
+
 const set = t => {
     _.audio.currentTime = t;
     update();
@@ -177,6 +187,7 @@ const fade = () => {
 
 export default {
     init,
+    prep,
     set,
     pause,
     play,

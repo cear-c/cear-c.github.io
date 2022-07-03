@@ -1,3 +1,4 @@
+import session from '/script/session/index.js';
 import { love } from '/script/util/icons.js';
 import player from '/script/player.js';
 import api from '/script/util/api.js'
@@ -32,14 +33,18 @@ const init = () => {
     queue();
     search();
 
-    setTimeout(() => _.input.value = '', 100);
-    const restore = () => history.pushState(null, '', '/' + location.search);
     window.onpopstate = () => {
-        restore();
+        let id = session.id();
+        let query = id ? '?' + id : '';
+        history.pushState(null, '', '/' + query);
         pop();
     }
 
-    restore();
+    setTimeout(() => {
+        _.input.value = '';
+        let url = '/' + location.search;
+        history.pushState(null, '', url);
+    }, 100);
 }
 
 
