@@ -94,6 +94,7 @@ const icons = () => {
     }
 
     _.img.ondblclick = () => {
+        _.list.classList.add('hidden');
         _.bar.className = 'hidden';
     }
 }

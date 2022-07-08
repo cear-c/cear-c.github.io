@@ -20,8 +20,6 @@ const init = () => {
     _.top = _.session.querySelector('span.top');
     _.btn = _.session.querySelector('button');
 
-    ws.init();
-
     _.id = search();
     let join = !!_.id;
     if (join) _.bar.className = 'session';

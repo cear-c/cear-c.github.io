@@ -13,12 +13,6 @@ const _ = {};
 
 
 
-const init = () => {
-
-}
-
-
-
 const open = id => {
     if (_.ws) return;
 
@@ -98,7 +92,6 @@ const active = () => !!_.ws;
 
 
 export default {
-    init,
     open,
     send,
     close,
