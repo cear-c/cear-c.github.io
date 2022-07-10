@@ -10,7 +10,6 @@ const _ = {}
 const state = (f, s, t) => {
     let state = {};
 
-
     state.frames = [];
     let c = _.frames || [];
     for (let i = 0; i < f.length; ++i) {

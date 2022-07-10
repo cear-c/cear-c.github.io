@@ -54,8 +54,7 @@ const bezier = (ax, ay, bx, by) => {
 }
 
 export default c => {
-    if (c > 1) c = 1;
-    if (c < -1) c = -1;
-    if (c >= 0) return bezier(c, 0, 1 - c, 1);
-    else return bezier(0, -c, 1, 1 + c);
+    let a = c < 0 ? 0 : c < 1 ? c : 1;
+    let b = c < 0 ? c : c < 1 ? 0 : c - 1;
+    return bezier(a, -b, 1 - a, 1 + b);
 }

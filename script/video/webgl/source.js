@@ -18,15 +18,13 @@ const fragment = `
 precision highp int;
 precision mediump float;
 
-#define uLen 2
-#define uPosI 0
-#define uColI 0
 
-uniform float uT[uLen];
-uniform float uC[uLen];
-uniform int uI[uLen];
 
-uniform float uM;
+uniform int uI;
+uniform float uT[2];
+uniform float uD[2];
+
+
 
 uniform sampler2D uTex;
 uniform ivec2 uTexDim;
@@ -38,33 +36,39 @@ vec4 texel(int x, int y) {
     return texture2D(uTex, v);
 }
 
-void main() {
-    vec2 c = vec2(gl_FragCoord);
 
+
+void main() {
     float r = 0.0;
     float g = 0.0;
     float b = 0.0;
     float s = 0.0;
 
-    int width = uTexDim.x;
-    int height = uTexDim.y;
+    vec2 c = vec2(gl_FragCoord);
     for (int i = 0; i < 100; i += 2) {
-        if (i >= width) break;
+        if (i >= uTexDim.x) break;
 
-        vec4 aPos = texel(i, uI[uPosI]);
-        vec4 bPos = texel(i, uI[uPosI] + 1);
-        vec4 pos = mix(aPos, bPos, uC[uPosI]);
 
-        vec4 aCol = texel(i + 1, uI[uColI]);
-        vec4 bCol = texel(i + 1, uI[uColI] + 1);
-        vec4 col = mix(aCol, bCol, uC[uColI]);
+
+        vec4 aPos = texel(i, uI);
+        vec4 bPos = texel(i, uI + 1);
+        vec4 pos = mix(aPos, bPos, uD[0]);
+
+        vec4 aCol = texel(i + 1, uI);
+        vec4 bCol = texel(i + 1, uI + 1);
+        vec4 col = mix(aCol, bCol, uD[0]);
+
+        float aMod = aCol[3];
+        float bMod = bCol[3];
+        float mod = mix(aMod, bMod, uD[0]);
+
+
 
         vec2 p = vec2(pos[0], pos[1]);
         float d = distance(c, p);
-
         if (d < 1.0) d = 1.0;
         float m = 50.0 / d;
-        m = pow(m, uM);
+        m = pow(m, mod);
 
         if (m > 300.0) {
             r = col[0];
@@ -79,6 +83,8 @@ void main() {
         b += col[2] * m;
         s += m;
     }
+
+
 
     r = r / 255.0;
     g = g / 255.0;

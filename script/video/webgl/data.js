@@ -36,10 +36,19 @@ const texture = (gl, program, tex, dim, index) => {
                 let f = frames[i];
                 let p = f.pos[j];
                 let c = f.col[j];
-                for (let l = 0; l < 4; ++l) {
-                    data[k + 0 + l] = p[l] || 0;
-                    data[k + 4 + l] = c[l] || 0;
-                }
+                let m = f.mod[j];
+
+                data[k + 0] = p[0] || 0;
+                data[k + 1] = p[1] || 0;
+
+                data[k + 2] = 0;
+                data[k + 3] = 0;
+
+                data[k + 4] = c[0] || 0;
+                data[k + 5] = c[1] || 0;
+                data[k + 6] = c[2] || 0;
+
+                data[k + 7] = m || 1;
             }
         }
 
@@ -58,10 +67,9 @@ const texture = (gl, program, tex, dim, index) => {
 const init = (gl, program) => {
     _.tex = texture(gl, program, 'uTex', 'uTexDim', 0);
 
-    _.t = gl.getUniformLocation(program, 'uT');
-    _.c = gl.getUniformLocation(program, 'uC');
     _.i = gl.getUniformLocation(program, 'uI');
-    _.m = gl.getUniformLocation(program, 'uM');
+    _.t = gl.getUniformLocation(program, 'uT');
+    _.d = gl.getUniformLocation(program, 'uD');
 }
 
 
@@ -78,10 +86,9 @@ const frame = (gl, config) => {
     if (!_.tex || !config) return;
     if (!_.tex.width || !_.tex.height) return;
 
+    gl.uniform1i(_.i, config.i);
     gl.uniform1fv(_.t, config.t);
-    gl.uniform1fv(_.c, config.c);
-    gl.uniform1iv(_.i, config.i);
-    gl.uniform1f(_.m, config.m);
+    gl.uniform1fv(_.d, config.d);
 
     _.tex?.set();
 }

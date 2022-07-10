@@ -67,7 +67,6 @@ const update = () => {
 
 
 const init = () => {
-    _.audio.onplay = update;
     _.audio.onseeked = update;
     _.audio.onwaiting = update;
     _.audio.ontimeupdate = update;

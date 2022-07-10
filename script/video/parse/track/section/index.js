@@ -4,12 +4,10 @@
 const section = (s, t) => {
     if (!s || !t) return {};
     let section = {};
-    let start = s.start;
-    let length = s.duration;
-    let end = start + length;
-    section.length = length;
-    section.start = start;
-    section.end = end;
+
+    section.start = s.start;
+    section.length = s.duration;
+    section.end = section.start + section.length;
 
 
 

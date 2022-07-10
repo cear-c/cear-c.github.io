@@ -62,6 +62,7 @@ const pause = p => {
 
 const play = e => {
     console.log(e);
+    _.paused = true;
     parse.play(e);
 }
 
