@@ -1,7 +1,7 @@
 import request from '/script/util/request.js';
 import store from '/script/util/store.js';
 
-export const _api = 'https://192.168.50.235:443'; // TODO
+export const _api = 'https://62.235.21.60:443/cea';
 
 const _types = ['album', 'artist', 'playlist', 'user', 'track'];
 const _url = 'https://open.spotify.com/';
