@@ -29,7 +29,10 @@ const put = t => {
 
 
 const run = () => {
+    if (_.running) return;
+    else _.running = true;
     requestAnimationFrame(() => {
+        _.running = false;
         if (_.paused) return;
         let diff = _.t && now() - _.t;
         let time = _.time + diff || 0;
