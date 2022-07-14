@@ -16,15 +16,18 @@ void main() {
 const fragment = `
 
 precision highp int;
+
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
 precision mediump float;
+#endif
 
 
 
 uniform int uI;
 uniform float uT[2];
 uniform float uD[2];
-
-
 
 uniform sampler2D uTex;
 uniform ivec2 uTexDim;
@@ -45,7 +48,7 @@ void main() {
     float s = 0.0;
 
     vec2 c = vec2(gl_FragCoord);
-    for (int i = 0; i < 100; i += 2) {
+    for (int i = 0; i < 24; i += 2) {
         if (i >= uTexDim.x) break;
 
 
@@ -67,16 +70,21 @@ void main() {
         vec2 p = vec2(pos[0], pos[1]);
         float d = distance(c, p);
         if (d < 1.0) d = 1.0;
-        float m = 50.0 / d;
+
+        float m = 100.0 / d;
         m = pow(m, mod);
 
-        if (m > 300.0) {
+
+
+        #ifndef GL_FRAGMENT_PRECISION_HIGH
+        if (m > 250.0) {
             r = col[0];
             g = col[1];
             b = col[2];
             s = 0.0;
             break;
         }
+        #endif
 
         r += col[0] * m;
         g += col[1] * m;

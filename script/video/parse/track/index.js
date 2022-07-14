@@ -1,25 +1,25 @@
 import section from './section/index.js';
+import col from './col.js';
+import mod from './mod.js';
 
 
 
-const track = e => {
-    if (!e) return {};
-    let track = {};
-    track.e = e;
+const track = track => {
+    if (!track?.track) return {};
+    let _ = {};
 
+    _.e = track.track;
+    _.length = _.e.duration;
 
+    _.col = col(_, track);
+    _.mod = mod(_, track);
 
-    track.min = 1;
-    track.max = 5;
-    track.pow = 3;
-
-
-    track.sections = [];
-    for (let i = 0; i < e?.sections?.length || 0; ++i) {
-        track.sections.push(section(e.sections[i], track));
+    _.sections = [];
+    for (let i = 0; i < track.sections?.length || 0; ++i) {
+        _.sections.push(section(track.sections[i], _));
     }
 
-    return track;
+    return _;
 }
 
 

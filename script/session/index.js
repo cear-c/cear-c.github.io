@@ -53,9 +53,12 @@ const init = () => {
         if (!e.track?.meta) update();
         else {
             if (e.end) e.track.meta.end = e.end;
-            else if (_.meta) e.track.meta = _.meta;
-            player.play(e.track, !e.end, update);
+            let uri = !e.end && e.track.meta.uri;
+            let meta = uri && _.meta?.[uri];
+            if (meta) e.track.meta = meta;
             delete _.meta;
+
+            player.play(e.track, !e.end, update);
         }
     })
 
@@ -163,9 +166,12 @@ const play = e => {
     if (!ws.active()) return false;
     let meta = e?.meta || e;
     let uri = meta?.uri;
-    _.meta = meta;
 
-    if (uri) ws.send({
+    if (!uri) return true;
+    if (!_.meta) _.meta = {};
+    _.meta[uri] = meta;
+
+    ws.send({
         track: uri,
         set: 0
     })

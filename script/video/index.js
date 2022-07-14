@@ -14,6 +14,25 @@ const now = () => performance.now() / 1000;
 
 const init = () => {
     webgl.init();
+
+    _.paused = true;
+
+    const list = document.querySelector('#list');
+
+    const change = () => {
+        if (list.clientWidth < window.innerWidth) _.hidden = false;
+        else _.hidden = !list.classList.contains('hidden');
+        run();
+    }
+
+    new ResizeObserver(change).observe(list);
+    new MutationObserver(change).observe(list, {
+        attributeFilter: ['class'],
+        characterData: false,
+        childList: false,
+        attributes: true
+    })
+
 }
 
 
@@ -29,10 +48,13 @@ const put = t => {
 
 
 const run = () => {
+    if (_.hidden) return;
+    if (_.paused) return;
     if (_.running) return;
     else _.running = true;
     requestAnimationFrame(() => {
         _.running = false;
+        if (_.hidden) return;
         if (_.paused) return;
         let diff = _.t && now() - _.t;
         let time = _.time + diff || 0;
@@ -50,6 +72,7 @@ const run = () => {
 const set = t => {
     _.time = t;
     _.t = now();
+    run();
 }
 
 
@@ -58,7 +81,6 @@ const pause = p => {
     _.time = player.time();
     _.paused = p;
     _.t = now();
-    if (!p) run();
 }
 
 

@@ -234,10 +234,7 @@ const play = (audio, file) => {
             dequeue();
 
             try { await decryption; }
-            catch (err) {
-                keys.error(err);
-                return reject(quit);
-            }
+            catch (err) { return reject(quit); }
 
             resolve(quit);
         }

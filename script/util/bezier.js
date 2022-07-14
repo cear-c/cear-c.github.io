@@ -53,7 +53,12 @@ const bezier = (ax, ay, bx, by) => {
     }
 }
 
-export default c => {
+
+
+export default (...v) => {
+    if (v.length > 1) return bezier(...v);
+
+    let c = v[0] || 0;
     let a = c < 0 ? 0 : c < 1 ? c : 1;
     let b = c < 0 ? c : c < 1 ? 0 : c - 1;
     return bezier(a, -b, 1 - a, 1 + b);

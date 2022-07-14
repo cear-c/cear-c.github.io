@@ -19,11 +19,10 @@ const state = time => {
     let state = {};
 
     let b = _.e.bars;
-    let l = b?.length || 0;
-    if (l < 2) return;
-    let start = b[l - 1];
-    let end = _.e.track?.duration || start;
-    for (let i = 0; i < l; ++i) {
+    if (!b?.length) return;
+    let start = b[b.length - 1];
+    let end = _.track.length || start;
+    for (let i = 0; i < b.length; ++i) {
         if (time > b[i]) continue;
         start = b[i - 1] || 0;
         end = b[i];
@@ -31,8 +30,8 @@ const state = time => {
     }
 
     let frames = [];
-    let f = _.e.segments || [];
-    for (let i = 0; i < f.length; ++i) {
+    let f = _.e.segments;
+    for (let i = 0; i < f?.length || 0; ++i) {
         let done = f[i].start + f[i].duration;
         if (done < start) continue;
         let l = f[i].start > end;
@@ -46,9 +45,9 @@ const state = time => {
     state.start = start;
     state.end = end;
 
-    let s = _.track?.sections;
-    let section = s[s.length - 1];
-    for (let i = 0; i < s.length || 0; ++i) {
+    let s = _.track.sections;
+    let section = s?.[s.length - 1];
+    for (let i = 0; i < s?.length || 0; ++i) {
         if (s[i].end < start) continue;
         section = s[i];
         break;
@@ -72,14 +71,16 @@ const config = time => {
     let t = (time - start) / length;
 
     let f = _.state.frames;
-    let curves = _.state.curves;
-    config.t = new Float32Array(curves.length);
-    config.d = new Float32Array(curves.length);
-    for (let i = 0; i < curves.length; ++i) {
-        let curve = curves?.[i];
+    let c = _.state.curves;
+    config.t = new Float32Array(c.length);
+    config.d = new Float32Array(c.length);
+    for (let i = 0; i < c.length; ++i) {
+        let curve = c?.[i];
         config.t[i] = curve?.(t) || t;
         for (let j = 0; j < f.length; ++j) {
-            if (f[j].end < time) continue;
+            let more = j < f.length - 1;
+            let done = f[j].end < time;
+            if (more && done) continue;
             let start = f[j].start;
             let length = f[j].length;
             let d = (time - start) / length;
