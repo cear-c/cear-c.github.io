@@ -8,7 +8,7 @@ const dim = (_, frame, section, track) => {
     let h = window.innerHeight;
     let d = Math.sqrt(w * w + h * h);
 
-    dim.s = Math.sqrt(2);
+    dim.s = 2;
     dim.r = d / 2;
     dim.x = w / 2;
     dim.y = h / 2;

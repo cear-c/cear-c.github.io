@@ -18,8 +18,8 @@ const col = (_, track) => {
     let v = 100 - 60 * dark;
 
     col.h = [h, 360 * m];
-    col.s = [s, -60];
-    col.v = [v, -120];
+    col.s = [s, -20];
+    col.v = [v, -60];
 
     return col;
 }
