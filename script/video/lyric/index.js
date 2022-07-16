@@ -31,6 +31,7 @@ const play = e => {
     _.lyric = e?.lyrics;
     if (!_.lyric?.length) delete _.lyric;
     else for (let i = 0; i < _.lyric.length; ++i) {
+        _.lyric[i].index = i;
         _.lyric[i].start = _.lyric[i].time / 1000;
         if (i >= _.lyric.length - 1) break;
         let next = _.lyric[i + 1].time;
@@ -56,7 +57,7 @@ const frame = time => {
     for (let i = 0; i < lyric.length; ++i) {
         let found = false;
         for (let j = 0; j < _.text.length; ++j) {
-            if (_.text[j].time === lyric[i].time) {
+            if (_.text[j].index === lyric[i].index) {
                 found = true;
                 break;
             }
