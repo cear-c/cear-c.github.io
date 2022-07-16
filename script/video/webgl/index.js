@@ -9,7 +9,7 @@ const _ = {};
 
 
 const init = () => {
-    let canvas = document.querySelector('canvas');
+    let canvas = document.querySelector('#webgl');
     let gl = setup.gl(canvas);
     if (!gl) return;
 
@@ -17,7 +17,6 @@ const init = () => {
     if (!program) return;
 
     _.gl = gl;
-    _.canvas = canvas;
     _.program = program;
     data.init(gl, program);
 

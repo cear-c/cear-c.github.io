@@ -1,6 +1,7 @@
 import player from '/script/player.js';
 import parse from './parse/index.js';
 import webgl from './webgl/index.js';
+import lyric from './lyric/index.js';
 
 
 
@@ -14,6 +15,7 @@ const now = () => performance.now() / 1000;
 
 const init = () => {
     webgl.init();
+    lyric.init();
 
     _.paused = true;
 
@@ -32,7 +34,6 @@ const init = () => {
         childList: false,
         attributes: true
     })
-
 }
 
 
@@ -62,6 +63,7 @@ const run = () => {
         let max = time < (_.max || 0);
         if (!min || !max) put(time);
         let c = parse.config(time);
+        lyric.frame(time);
         webgl.frame(c);
         run();
     })
@@ -86,9 +88,15 @@ const pause = p => {
 
 
 const play = e => {
-    console.log(e);
+    if (e) console.log(e);
+    for (let key in _) {
+        if (key === 'hidden') continue;
+        delete _[key];
+    }
+
     _.paused = true;
     parse.play(e);
+    lyric.play(e);
 }
 
 

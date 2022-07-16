@@ -68,9 +68,9 @@ const icons = () => {
 
 
 
-    _.mute = toggle(_.controls, 'text', 'mute', v => {
-        // TOOO
-    })
+    _.text = toggle(_.controls, 'text', 'show', v => {
+        _.lyric = v;
+    }, true);
 
     toggle(_.controls, 'loop', 'repeat', v => {
         _.repeat = v;
@@ -239,8 +239,8 @@ const update = e => {
     _.duration = e?.track?.duration;
     _.max.innerHTML = time(_.duration);
     if (color) _.bar.style.setProperty('--background', color);
-    if (e?.lyrics?.length) _.mute.removeAttribute('disabled');
-    else _.mute.setAttribute('disabled', '');
+    if (e?.lyrics?.length) _.text.removeAttribute('disabled');
+    else _.text.setAttribute('disabled', '');
 }
 
 
@@ -267,6 +267,7 @@ const play = e => {
 
 
 
+const lyric = () => _.lyric;
 const repeat = () => _.repeat;
 
 
@@ -277,5 +278,6 @@ export default {
     pause,
     update,
     play,
+    lyric,
     repeat
 }

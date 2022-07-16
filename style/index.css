@@ -1,6 +1,12 @@
 @font-face {
     font-family: circular;
-    src: url(/assets/font/circular.woff2);
+    src: url(/assets/font/circular-book.woff2);
+}
+
+@font-face {
+    font-weight: bold;
+    font-family: circular;
+    src: url(/assets/font/circular-bold.woff2);
 }
 
 html {
@@ -88,7 +94,9 @@ canvas {
     width: 100%;
     height: 100%;
     position: absolute;
+}
 
+#webgl {
     background-color: black;
 }
 
@@ -207,12 +215,12 @@ canvas {
 .icon.i-playing.paused { --mask-image: url(/assets/icons/playing.svg); }
 
 .icon.i-text {
-    background-color: var(--green);
-    --mask-image: url(/assets/icons/text.svg);
-}
-.icon.i-text.mute, .icon.i-text:disabled {
     --mask-image: url(/assets/icons/mute.svg);
     background-color: var(--foreground);
+}
+.icon.i-text.show:not(:disabled) {
+    --mask-image: url(/assets/icons/text.svg);
+    background-color: var(--green);
 }
 
 .icon.i-play { --mask-image: url(/assets/icons/play.svg); }

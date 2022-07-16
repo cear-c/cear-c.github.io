@@ -15,7 +15,7 @@ const gl = canvas => {
     }
 
     gl.clearColor(0, 0, 0, 1);
-    window.onresize = resize;
+    window.addEventListener('resize', resize);
     resize();
 
     return gl;

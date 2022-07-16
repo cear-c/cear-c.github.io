@@ -29,7 +29,7 @@ const range = (_, section, track, t) => {
     if (loud > 0) loud = 0;
 
     let d = 45 + 1 * loud;
-    let l = 15 + 45 * ener;
+    let l = 30 + 60 * ener;
 
     for (let i = 0; i < 6; ++i) {
         col.push({
